@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot } from 'react-dom/client';
 
-import  DataSet  from './components/DataSet1';
+import  DataSet  from './components/DataSet';
 import { globalTypes, loadData } from './data';
 
 // @ts-ignore

@@ -3,13 +3,17 @@ type KeyMap<T> = {
   [key: Key]: T;
 }
 
-type Key = string;
+export type Key = string;
 type TypeKey = Key;
 type FieldKey = Key;
 type TableKey = Key;
 
 type JsonType = "string" | "number" | "boolean";
 type Value = string | number | boolean ;
+export type Row = {
+  id: string;
+  [key: string]: Value;
+}
 
 interface TypeBase {
    kind: Key;
@@ -24,22 +28,25 @@ interface PrimitiveType extends TypeBase {
 interface CompoundType extends TypeBase {
   key: FieldKey,
   dataTable: TableKey,
-  structure: KeyMap<TypeKey>
-}
+  structure: {
+    id: TypeKey,
+    [key: Key]: TypeKey
+  }}
 
 interface ReferenceType extends TypeBase {
 
 }
 
-type Type = CompoundType | PrimitiveType | ReferenceType;
+export type Type = CompoundType | PrimitiveType | ReferenceType;
 
 export interface Table {
   type: TypeKey;
   columns: Column[];
-  data: KeyMap<Value>[];
+  data: Row[];
+
 }
 
-interface Column {
+export interface Column {
   data: FieldKey;
   header: string;
 }
@@ -125,7 +132,7 @@ const data: Data = {
       ],
       data: [
         {
-          id: "001",
+          id: "0001",
           name: "Vigilia",
           source: 226,
           entry: "Abbas",
@@ -134,7 +141,7 @@ const data: Data = {
           nameRef: "003"
         },
         {
-          id: "002",
+          id: "0002",
           name: "Martinus",
           source: 226,
           entry: "Abbas",
@@ -143,7 +150,7 @@ const data: Data = {
           nameRef: "002"
         },
         {
-          id: "003",
+          id: "0003",
           name: "Pedro",
           source: 226,
           entry: "Abad",
@@ -160,8 +167,7 @@ const data: Data = {
         header: ""
       },
         { data: "standardName", header: "Name" },
-        { data: "exampleName", header: "Attested Name"},
-        { data: "gender", header: "Gender(s)"}
+        { data: "description", header: "Notes"}
       ],
       data: [
         {

@@ -9,7 +9,7 @@ type FieldKey = Key;
 type TableKey = Key;
 
 type JsonType = "string" | "number" | "boolean";
-type Value = string | number | boolean ;
+export type Value = string | number | boolean | null ;
 export type Row = {
   id: string;
   [key: string]: Value;
@@ -20,12 +20,12 @@ interface TypeBase {
    displayName: string;
 }
 
-interface PrimitiveType extends TypeBase {
+export interface PrimitiveType extends TypeBase {
   style: Key;
   jsonType: JsonType;
 }
 
-interface CompoundType extends TypeBase {
+export interface CompoundType extends TypeBase {
   key: FieldKey,
   dataTable: TableKey,
   structure: {
@@ -78,6 +78,15 @@ export const globalTypes: TypeMap = {
     displayName: "Auto",
     jsonType: "string",
     style: "string-style"
+  },
+  initial: {
+    kind: "compound",
+    displayName: "",
+    structure: {
+      id: "id",
+      value: "default"
+    },
+    key: "id"
   }
 }
 

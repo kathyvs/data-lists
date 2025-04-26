@@ -1,5 +1,5 @@
 
-import { Table, Column, Key, Row } from '../data';
+import { Table, Column, Key, Row, Value } from '../data';
 import { TypeInfo } from './types';
 
 
@@ -16,8 +16,8 @@ export class TableData {
     tableData: Table;
     types: Map<Key, TypeInfo>;
   }) {
-    this.rootType = types.get(tableData.type) || TypeInfo.DEFAULT_TYPE;
-    this.columns = tableData.columns.map((c) => new ColumnData(c));
+    this.rootType = types.get(tableData.type) as TypeInfo;
+    this.columns = tableData.columns.map((c) => new ColumnData(c, this.rootType));
     this.entries = tableData.data;
   }
 
@@ -33,25 +33,32 @@ export class TableData {
 
 }
 
-class ColumnData {
+export class ColumnData {
 
-  private column: Column;
+  //private column: Column;
   displayName: string;
+  key: string;
+  className: string;
 
-  constructor(column: Column) {
-    this.column = column;
+  constructor(column: Column, rootType: TypeInfo) {
+    //this.column = column;
     this.displayName = column.header;
+    this.key = column.data;
+    this.className = rootType.typeFor(this.key).className;
   }
 
-  getKey() {
-    return this.column.data;
-  }
 }
 
-class RowData {
-  id: Key | null | undefined;
+export class RowData {
+  readonly id: Key
+  private readonly row: Row;
 
   constructor(row: Row) {
     this.id = row.id;
+    this.row = row;
+  }
+
+  get(key: Key): Value {
+    return this.row[key] || "";
   }
 }

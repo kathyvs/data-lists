@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { buildTypeMap, TypeInfo } from './types';
-import { Type, TypeMap } from '../data';
+import { globalTypes, PrimitiveType, TypeMap } from '../data';
 
-function createSimpleType(k: string, props = {}): Type {
+function createSimpleType(k: string, props = {}): PrimitiveType {
   return {kind: "primitive",
     displayName: k + " display",
     style: "string-style",
@@ -51,3 +51,53 @@ describe('buildTypeMap', () => {
   })
 
 })
+
+describe('TypeInfo', () => {
+
+  const primitiveType: PrimitiveType = createSimpleType("prim");
+
+  const compoundType = {
+    kind: "compound",
+    displayName: "Compound Test",
+    structure: {
+      id: "id",
+      name: "default",
+      value: "prim"
+    },
+    key: "id"
+  };
+
+  const testTypes = buildTypeMap({ ...globalTypes, prim: primitiveType, comTest: compoundType });
+
+  describe('typeFor', () => {
+
+    it('returns the given type when type is not compound', () => {
+      // @ts-ignore
+      const prim = testTypes.get('prim') as TypeInfo;
+      expect(prim.typeFor("id")).to.deep.equals(prim);
+    });
+
+    it('returns the type of the structure key when compound and present', () => {
+      const testType = testTypes.get('comTest') as TypeInfo;
+      expect(testType.typeFor('value')).to.deep.equals(testTypes.get('prim'));
+    });
+
+    it('returns the default type when compound and missing', () => {
+      const testType = testTypes.get('comTest') as TypeInfo;
+      expect(testType.typeFor('bad')).to.deep.equals(TypeInfo.DEFAULT_TYPE);
+    });
+  })
+
+  describe('className', () => {
+
+    it('returns the style for primitive types', () => {
+      const prim = testTypes.get('prim') as TypeInfo;
+      expect(prim.className).to.equal(primitiveType.style);
+    });
+
+    it('returns the style for the id for compound types', () => {
+      const testType = testTypes.get('comTest') as TypeInfo;
+      expect(testType.className).to.equal((testTypes.get('id') as TypeInfo).className);
+    })
+  })
+});

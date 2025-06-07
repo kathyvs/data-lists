@@ -10,7 +10,7 @@ type TableKey = Key;
 
 type JsonType = "string" | "number" | "boolean";
 export type Value = string | number | boolean | null ;
-export type Row = {
+export type RowType = {
   id: string;
   [key: string]: Value;
 }
@@ -22,6 +22,7 @@ interface TypeBase {
 
 export interface PrimitiveType extends TypeBase {
   style: Key;
+  readonly: boolean;
   jsonType: JsonType;
 }
 
@@ -39,20 +40,21 @@ interface ReferenceType extends TypeBase {
 
 export type Type = CompoundType | PrimitiveType | ReferenceType;
 
-export interface Table {
+export interface TableType {
   type: TypeKey;
-  columns: Column[];
-  data: Row[];
+  displayName: string;
+  columns: ColumnType[];
+  data: RowType[];
 
 }
 
-export interface Column {
+export interface ColumnType {
   data: FieldKey;
   header: string;
 }
 
 export type TypeMap = KeyMap<Type>;
-export type TableMap = KeyMap<Table>;
+export type TableMap = KeyMap<TableType>;
 
 export type Data = {
   displayName: string;
@@ -65,7 +67,8 @@ export const globalTypes: TypeMap = {
     kind: "primitive",
     displayName: "ID",
     style: "id-style",
-    jsonType: "string"
+    jsonType: "string",
+    readonly: true
   },
   int: {
     kind: "primitive",
@@ -121,6 +124,7 @@ const data: Data = {
   dataTables: {
     entries: {
       type: "entry",
+      displayName: 'Entries',
       columns: [
         {
           data: "id",
@@ -171,6 +175,7 @@ const data: Data = {
     },
     names: {
       type: "name",
+      displayName: "Root Names",
       columns: [{
         data: "id",
         header: ""

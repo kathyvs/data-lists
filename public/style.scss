@@ -1,0 +1,123 @@
+:root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    background-color: #3F3F32;
+    text-align: center;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 320px;
+    min-height: 100vh;
+    align-items: center;
+
+    //background-image: url("background.svg");
+    //background-repeat: no-repeat;
+    //background-size: cover;
+}
+
+h1 {
+    font-size: 29px;
+    line-height: 39px;
+    font-weight: 300;
+}
+
+.title {
+    margin-bottom: 40px;
+}
+
+#app {
+    max-width: 95%;
+}
+
+.logo {
+    margin-top: 45px;
+    margin-left: 20%;
+    align-self: flex-start;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.table td {
+    padding: 0px;
+    place-content: center;
+}
+
+.readonly-style {
+    color: #333333;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 1px;
+    padding-bottome: 1px;
+}
+
+.number-style {
+    text-align: right;
+}
+
+button {
+    font-family: Inter, system-ui, sans-serif;
+    cursor: pointer;
+}
+
+button:hover {
+    background-image: radial-gradient(
+            farthest-corner at 77% 83%,
+            rgba(245, 197, 1, 0.5) 2%,
+            rgba(254, 126, 1, 0.5) 28%,
+            rgba(28, 25, 25, 0) 70%
+    );
+    border: 1px solid rgba(76, 166, 255, 0.2);
+    background-clip: padding-box;
+}
+
+th {
+    padding-right: 1em;
+    padding-left: 1em;
+    background-color: beige;
+    color: black;
+}
+
+@media (max-width: 875px) {
+
+    .logo {
+        margin-top: 10px;
+    }
+
+    .title {
+        margin-bottom: 30px;
+    }
+
+    .counter {
+        flex-direction: column;
+        padding: 0;
+        margin-bottom: 0;
+    }
+
+    .counter-info {
+        width: 100%;
+        height: 300px;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+
+    .counter-interaction {
+        display: flex;
+        flex-direction: row;
+        height: auto;
+        width: auto;
+    }
+
+    .counter-interaction button {
+        width: 47%;
+        height: 100px;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+}

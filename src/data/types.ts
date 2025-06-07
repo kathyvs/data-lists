@@ -1,9 +1,9 @@
-import { CompoundType, globalTypes, Key, PrimitiveType, Type } from '../data';
+import { CompoundType, globalTypes, Key, PrimitiveType, Type, Value } from '../data';
 
 export class TypeInfo {
   static DEFAULT_TYPE: TypeInfo = new TypeInfo(globalTypes['default'] as Type, new Map());
 
-  private typeData: Type;
+  private readonly typeData: Type;
   displayName: string;
   private allTypes: Map<Key, TypeInfo>;
   className: string;
@@ -30,6 +30,14 @@ export class TypeInfo {
     } else {
       return this;
     }
+  }
+
+  format(value: Value) {
+    return value + '';
+  }
+
+  readonly() {
+    return this.typeData.kind == 'primitive' && (this.typeData as PrimitiveType).readonly;
   }
 }
 
